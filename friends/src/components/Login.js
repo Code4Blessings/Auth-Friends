@@ -8,26 +8,38 @@ class Login extends Component {
             credentials: {
                 username: '',
                 password: ''
-            }
+            },
+            isFetching: false
         }
-    }
+    };
 
     handleChange = e => {
-        this.setState({
-            ...this.state.credentials,
-            [e.target.name]: e.target.value
-        })
+       this.setState({
+           credentials: {
+               ...this.state.credentials,
+            [e.target.name]: e.target.value   
+           }
+       })
     }
 
     login = e => {
         e.preventDefault();
-        axiosWithAuth().post('/login')
+        this.setState({
+            isFetching: true
+        })
+        axiosWithAuth()
+        .post('/login', this.state.credentials)
+        .then(res => {
+            localStorage.setItem('token', res.data.payload);
+            this.props.history.push('/protected')
+        })
+        .catch(err => console.log('Data returned an error', err))
     }
 
     render() {
         return (
             <div>
-                <form onSubmit={this.login} className="form-container" >
+                <form onSubmit={this.login} className="form-container">
                     <label htmlFor="username">Username:
                         <input 
                         type="text"
@@ -40,10 +52,11 @@ class Login extends Component {
                         <input 
                         type="text"
                         name="password"
-                        value={this.state.credentials.username} 
+                        value={this.state.credentials.password} 
                         onChange={this.handleChange} />
                     </label>
                     <button>Login</button>
+                    {this.state.isFetching && 'logging in'}
                 </form>
             </div>
         );

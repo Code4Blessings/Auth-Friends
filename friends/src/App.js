@@ -1,6 +1,7 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
 import Login from './components/Login';
+import Friends from './components/Friends';
 import './App.css';
 
 function App() {
@@ -14,8 +15,9 @@ function App() {
           <Link to='/friends'>Friends Page(Protected)</Link>
         </li>
       </ul>
-      <h1>FRIENDS!!!</h1>
-      <Route path="/login" component={Login} />
+      <Switch>
+         <Route path="/login" component={Login} />
+      </Switch>
     </div>
   );
 }
