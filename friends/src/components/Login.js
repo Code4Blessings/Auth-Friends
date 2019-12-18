@@ -9,7 +9,7 @@ class Login extends Component {
                 username: '',
                 password: ''
             },
-            isFetching: false
+            isLoading: false
         }
     };
 
@@ -25,7 +25,7 @@ class Login extends Component {
     login = e => {
         e.preventDefault();
         this.setState({
-            isFetching: true
+            isLoading: true
         })
         axiosWithAuth()
         .post('/login', this.state.credentials)
